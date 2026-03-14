@@ -17,7 +17,7 @@
     },
     "./dist/muni-ui-kit.css": "./dist/muni-ui-kit.css"
   },
- "scripts": {
+  "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -53,8 +53,8 @@
     "globals": "^17.4.0",
     "playwright": "^1.58.2",
     "postcss": "^8.5.8",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "storybook": "^10.2.19",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.9.3",
