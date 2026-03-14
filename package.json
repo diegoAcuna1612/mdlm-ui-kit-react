@@ -14,7 +14,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/muni-ui-kit.js",
       "require": "./dist/muni-ui-kit.umd.cjs"
-    }
+    },
+    "./dist/muni-ui-kit.css": "./dist/muni-ui-kit.css"
   },
  "scripts": {
     "dev": "vite",
