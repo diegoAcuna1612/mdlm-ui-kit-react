@@ -1,1 +1,1 @@
-export { MuniButton } from './MuniButton';
+export * from './MuniButton';
