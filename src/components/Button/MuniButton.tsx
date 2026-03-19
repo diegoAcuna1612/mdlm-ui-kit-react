@@ -1,84 +1,57 @@
-import React from 'react';
-import { MuniColors } from '../../theme/colors';
 
-type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
-type ButtonSize = 'sm' | 'md' | 'lg';
+import { forwardRef } from 'react';
+import { MuniSizes } from '../../theme/sizes';
+import type { ButtonProps, ButtonSize, ButtonVariant } from './MuniButton.types';
 
-interface MuniButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fullWidth?: boolean;
-  children: React.ReactNode;
-}
-
-const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
-  primary: {
-    backgroundColor: MuniColors.primary,
-    color: '#ffffff',
-    border: 'none',
-  },
-  secondary: {
-    backgroundColor: MuniColors.secondary,
-    color: '#ffffff',
-    border: 'none',
-  },
-  accent: {
-    backgroundColor: MuniColors.accent,
-    color: MuniColors.neutral.dark,
-    border: 'none',
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    color: MuniColors.secondary,
-    border: `2px solid ${MuniColors.secondary}`,
-  },
-  ghost: {
-    backgroundColor: 'transparent',
-    color: MuniColors.neutral.dark,
-    border: 'none',
-  },
+const variantStyles: Record<ButtonVariant, string> = {
+  primary: 'bg-muni-primary text-white enabled:hover:bg-muni-darkGreen shadow-sm',
+  secondary: 'bg-muni-secondary text-white enabled:hover:opacity-90',
+  accent: 'bg-muni-accent text-muni-neutral-dark enabled:hover:brightness-95',
+  darkGreen: 'bg-muni-darkGreen text-white enabled:hover:opacity-90',
+  danger: 'bg-muni-danger text-white enabled:hover:opacity-90 shadow-sm',
+  ghost: 'bg-muni-lightGray text-muni-darkGray enabled:hover:bg-muni-darkGray enabled:hover:text-white',
 };
 
-const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-5 py-2.5 text-base',
-  lg: 'px-7 py-3.5 text-lg',
-};
+const sizeStyles: Record<ButtonSize, string> = MuniSizes.button;
 
-export const MuniButton: React.FC<MuniButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
-  fullWidth = false,
-  children,
-  className = '',
-  disabled,
-  ...props
-}) => {
-  return (
-    <button
-      className={`
-        inline-flex items-center justify-center
-        font-semibold rounded-lg
-        transition-all duration-200 ease-in-out
-        focus:outline-none focus:ring-2 focus:ring-offset-2
-        disabled:opacity-50 disabled:cursor-not-allowed
-        hover:opacity-90 hover:shadow-md
-        active:scale-[0.97]
-        cursor-pointer
-        ${sizeClasses[size]}
-        ${fullWidth ? 'w-full' : ''}
-        ${className}
-      `}
-      style={{
-        ...variantStyles[variant],
-        ...(variant === 'primary' ? { '--tw-ring-color': MuniColors.primary } as React.CSSProperties : {}),
-        ...(variant === 'secondary' || variant === 'outline' ? { '--tw-ring-color': MuniColors.secondary } as React.CSSProperties : {}),
-        ...(variant === 'accent' ? { '--tw-ring-color': MuniColors.accent } as React.CSSProperties : {}),
-      }}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+export const MuniButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    variant = 'primary', 
+    size = 'md', 
+    children, 
+    className = '', 
+    isLoading = false, 
+    fullWidth = false, 
+    leftIcon, 
+    rightIcon, 
+    ...props }, ref) => {
+    const baseClasses = 'rounded font-semibold transition-all duration-100 enabled:active:scale-95 focus:outline-none inline-flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50';
+    
+    const widthClass = fullWidth ? 'w-full' : 'w-fit';
+
+    const combinedClasses = `${baseClasses} ${variantStyles[variant]} ${sizeStyles[size]} ${widthClass} ${className}`;
+
+    return (
+      <button 
+        ref={ref}
+        className={combinedClasses} 
+        disabled={isLoading || props.disabled}
+        {...props}>
+        {isLoading ? (
+          <div className="flex items-center gap-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            <span>Cargando...</span>
+          </div>
+        ) : (
+          <>
+            {leftIcon && <span className="inline-flex items-center justify-center">{leftIcon}</span>}
+            {children}
+            {rightIcon && <span className="inline-flex items-center justify-center">{rightIcon}</span>}
+          </>
+        )}
+      </button>
+    );
+  }
+);
+
+MuniButton.displayName = 'MuniButton';

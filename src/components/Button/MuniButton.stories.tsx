@@ -1,26 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MuniButton } from './MuniButton';
 
-const meta: Meta<typeof MuniButton> = {
-  title: 'Muni-UI/Button',
+const meta: Meta<typeof MuniButton>={
+  title: 'Components/MuniButton',
   component: MuniButton,
-  parameters: {
-    layout: 'centered',
-  },
   argTypes: {
-    variant: {
-      control: 'select',
-      options: ['primary', 'secondary', 'accent', 'outline', 'ghost'],
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-    },
-    fullWidth: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    onClick: { action: 'clicked' },
+    variant: { control: 'select' },
+    size: { control: 'select' },
   },
-};
+}
 
 export default meta;
 type Story = StoryObj<typeof MuniButton>;
@@ -28,73 +16,140 @@ type Story = StoryObj<typeof MuniButton>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    children: 'Botón Primario',
+    children: 'Botón Municipal',
+    size: 'md',
   },
 };
 
-export const Secondary: Story = {
+export const Secondary:Story={
   args: {
     variant: 'secondary',
-    children: 'Botón Secundario',
+    children: 'Botón Municipal',
+    size: 'md',
+  },
+}
+
+export const Danger: Story = {
+  args: {
+    variant: 'danger',
+    children: 'Eliminar Expediente',
+    size: 'md',
   },
 };
 
 export const Accent: Story = {
   args: {
     variant: 'accent',
-    children: 'Botón Acento',
+    children: 'Confirmar Acción',
+    size: 'md',
   },
 };
 
-export const Outline: Story = {
+export const DarkGreen: Story = {
   args: {
-    variant: 'outline',
-    children: 'Botón Outline',
+    variant: 'darkGreen',
+    children: 'Guardar Cambios',
+    size: 'md',
   },
 };
 
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
-    children: 'Botón Ghost',
+    children: 'Cancelar / Atrás',
+    size: 'md',
   },
 };
-
-export const Sizes: Story = {
-  render: () => (
-    <div className="flex items-center gap-4">
-      <MuniButton size="sm">Pequeño</MuniButton>
-      <MuniButton size="md">Mediano</MuniButton>
-      <MuniButton size="lg">Grande</MuniButton>
-    </div>
-  ),
-};
-
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <MuniButton variant="primary">Primario</MuniButton>
-      <MuniButton variant="secondary">Secundario</MuniButton>
-      <MuniButton variant="accent">Acento</MuniButton>
-      <MuniButton variant="outline">Outline</MuniButton>
-      <MuniButton variant="ghost">Ghost</MuniButton>
-    </div>
-  ),
-};
-
 export const Disabled: Story = {
   args: {
     variant: 'primary',
-    children: 'Deshabilitado',
-    disabled: true,
+    children: 'Botón Bloqueado',
+    size: 'md',
+    disabled: true, 
+  },
+};
+
+
+export const AllSizes: Story = {
+  render: (args) => (
+    <div className="flex items-center gap-4">
+      <MuniButton {...args} size="sm">Pequeño</MuniButton>
+      <MuniButton {...args} size="md">Mediano</MuniButton>
+      <MuniButton {...args} size="lg">Grande</MuniButton>
+    </div>
+  ),
+  args: {
+    variant: 'primary',
+  }
+};
+
+export const AllVariants: Story = {
+  render: (args) => (
+    <div className="flex flex-wrap items-center gap-4">
+      <MuniButton {...args} variant="primary">Primary</MuniButton>
+      <MuniButton {...args} variant="secondary">Secondary</MuniButton>
+      <MuniButton {...args} variant="accent">Accent</MuniButton>
+      <MuniButton {...args} variant="darkGreen">Dark Green</MuniButton>
+      <MuniButton {...args} variant="danger">Danger</MuniButton>
+      <MuniButton {...args} variant="ghost">Ghost</MuniButton>
+    </div>
+  ),
+
+  
+};
+
+export const AllDisabled: Story = {
+  render: (args) => (
+    <div className="flex flex-wrap items-center gap-4">
+      <MuniButton {...args} variant="primary" disabled>Primary</MuniButton>
+      <MuniButton {...args} variant="secondary" disabled>Secondary</MuniButton>
+      <MuniButton {...args} variant="accent" disabled>Accent</MuniButton>
+      <MuniButton {...args} variant="darkGreen" disabled>Dark Green</MuniButton>
+      <MuniButton {...args} variant="danger" disabled>Danger</MuniButton>
+      <MuniButton {...args} variant="ghost" disabled>Ghost</MuniButton>
+
+    </div>
+  ),
+};
+
+export const Loading: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Enviar',
+    isLoading: true,
   },
 };
 
 export const FullWidth: Story = {
-  render: () => (
-    <div className="w-80 space-y-3">
-      <MuniButton fullWidth variant="primary">Acción Principal</MuniButton>
-      <MuniButton fullWidth variant="outline">Cancelar</MuniButton>
+  args: {
+    variant: 'primary',
+    children: 'Botón Ancho Completo',
+    fullWidth: true,
+  },
+};
+
+export const WithIcons: Story = {
+  render: (args) => (
+    <div className="flex flex-col gap-4">    
+      <MuniButton {...args} leftIcon="📁" >
+        Abrir Archivo
+      </MuniButton>
+      <MuniButton {...args} variant="secondary" rightIcon="➡">
+        Siguiente Paso
+      </MuniButton>
+      <MuniButton {...args} variant="darkGreen" leftIcon="➕" rightIcon="💾">
+        Crear y Guardar
+      </MuniButton>
     </div>
   ),
+};
+
+export const FullWidthWithIcons: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Confirmar y Continuar',
+    fullWidth: true,
+    leftIcon: '✔',
+    rightIcon: '➡',
+  },
 };
